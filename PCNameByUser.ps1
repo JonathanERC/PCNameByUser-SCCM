@@ -36,7 +36,7 @@ GitHub: https://github.com/JonathanERC/PCNameByUser-SCCM
 	# Read the config file
 	$config = ([xml](Get-Content $configPath)).root
 	
-	# If not username is set in argument then ask for the username
+	# If not username is set in argument then ask for it
 	if ($null -eq $args[0]) {
 		$paramUser = Read-Host -Prompt "Write domain Username"
 		$user = $config.prefix+"_"+$paramUser
@@ -63,14 +63,14 @@ GitHub: https://github.com/JonathanERC/PCNameByUser-SCCM
 	Start-Sleep 1
 	Write-Output ""
 
-	# Set argument to null
+	# Exit if script is running inline
 	if ($null -ne $args[0]) {
-		$args[0] = $null
-	}
-
-	Write-Host -NoNewline "Press 'r' to run again..."
-	# Read if the key send is a 'r' to run the script again
-	$response = $Host.UI.RawUI.ReadKey() 
+		return $null
+	} else {
+        Write-Host -NoNewline "Press 'r' to run again..."
+	    # Read if the key send is a 'r' to run the script again
+	    $response = $Host.UI.RawUI.ReadKey()
+    }
 }
 # If the sent letter is 'r' run the script again
 while ($response.Character -eq 'r')
